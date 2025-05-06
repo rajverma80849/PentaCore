@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Query</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .fade-in {
+      animation: fadeIn 0.4s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen p-4">
+  <div class="bg-white w-full max-w-lg p-6 rounded-xl shadow-lg flex flex-col space-y-4">
+    <h1 class="text-2xl font-bold text-center text-blue-600">Query</h1>
+
+    <div id="chat-box" class="flex-1 overflow-y-auto space-y-2 h-80 border p-2 rounded bg-gray-50"></div>
+
+    <div class="flex space-x-2">
+      <input
+        type="text"
+        id="user-input"
+        placeholder="Ask me something..."
+        class="flex-1 border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <button
+        id="send-btn"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transform transition duration-200 hover:scale-105 active:scale-95"
+      >
+        Send
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    function addMessage(message, sender) {
+      const msg = document.createElement('div');
+      const span = document.createElement('span');
+
+      span.textContent = message;
+      span.className = inline-block ${sender === 'user' ? 'bg-green-200' : 'bg-gray-200'} p-2 rounded mb-1 fade-in;
+
+      msg.className = sender === 'user' ? 'text-right' : 'text-left text-gray-700';
+      msg.appendChild(span);
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function mockBotReply(userText) {
+      // Replace this with a real fetch to backend if needed
+      const replies = [
+        You said: "${userText}" 🤖,
+        "I'm just a dummy bot!",
+        "Try asking me anything else.",
+        "Hello from the other side!",
+      ];
+      return replies[Math.floor(Math.random() * replies.length)];
+    }
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+
+      addMessage(message, 'user');
+      userInput.value = '';
+
+      setTimeout(() => {
+        const reply = mockBotReply(message);
+        addMessage(reply, 'bot');
+      }, 600); // simulate slight delay
+    }
+
+    sendBtn.onclick = sendMessage;
+
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>

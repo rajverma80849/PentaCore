@@ -1,0 +1,51 @@
+<!-- reward-request.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Claim Reward</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6 flex justify-center items-center min-h-screen">
+  <div class="bg-white p-8 rounded shadow max-w-lg w-full">
+    <h2 class="text-2xl font-bold mb-4 text-gray-700">Claim Reward for Returning Item</h2>
+    <form id="rewardForm" enctype="multipart/form-data">
+      <div class="mb-4">
+        <label class="block mb-1 font-medium">Item ID / Reference Code</label>
+        <input type="text" name="itemId" required class="w-full border p-2 rounded" />
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1 font-medium">Your Name</label>
+        <input type="text" name="returnerName" required class="w-full border p-2 rounded" />
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1 font-medium">Your Contact Email</label>
+        <input type="email" name="contactEmail" required class="w-full border p-2 rounded" />
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1 font-medium">Upload Optional Proof (e.g., Photo with Owner)</label>
+        <input type="file" name="proofFile" class="w-full" />
+      </div>
+      <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+        Submit Reward Request
+      </button>
+    </form>
+    <p id="status" class="mt-4 text-green-600"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('rewardForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const res = await fetch('/api/reward-claim', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      document.getElementById('status').textContent = data.message;
+    });
+  </script>
+</body>
+</html>

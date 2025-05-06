@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Claim Lost Item</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Page fade-in */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1s ease-out;
+    }
+
+    /* Form slide-up */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slideUp {
+      animation: slideUp 0.8s ease-out;
+    }
+
+    /* Button wiggle */
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-1deg); }
+      50% { transform: rotate(1deg); }
+    }
+    .hover\\:animate-wiggle:hover {
+      animation: wiggle 0.3s ease-in-out;
+    }
+
+    /* Message fade */
+    @keyframes fadeMessage {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .fade-message {
+      animation: fadeMessage 0.6s ease-in;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6 animate-fadeIn">
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-xl animate-slideUp">
+    <h2 class="text-3xl font-bold mb-6 text-gray-800 text-center">Claim Lost Item</h2>
+    <form id="claimForm" enctype="multipart/form-data" class="space-y-5">
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Item ID / Reference Code</label>
+        <input type="text" name="itemId" required
+          class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 focus:shadow-md focus:shadow-blue-200" />
+      </div>
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Your Full Name</label>
+        <input type="text" name="claimerName" required
+          class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 focus:shadow-md focus:shadow-blue-200" />
+      </div>
+      <div>
+        <label class="block mb-1 font-semibold text-gray-700">Proof Document (PDF/Image)</label>
+        <input type="file" name="proofDocument" required accept=".pdf,.png,.jpg,.jpeg"
+          class="w-full border p-2 rounded-lg bg-gray-50" />
+      </div>
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition duration-200 transform hover:scale-105 hover:animate-wiggle">
+        Submit Claim
+      </button>
+    </form>
+    <p id="status" class="mt-4 text-center text-sm font-medium"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('claimForm');
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = "Submitting...";
+      status.className = "mt-4 text-center text-sm font-medium text-blue-500 fade-message";
+
+      try {
+        const formData = new FormData(form);
+        const res = await fetch('/api/submit-claim', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          status.textContent = data.message  "Claim submitted successfully!";
+          status.className = "mt-4 text-center text-sm font-medium text-green-600 fade-message";
+        } else {
+          throw new Error(data.message  "Something went wrong.");
+        }
+      } catch (err) {
+        status.textContent = err.message;
+        status.className = "mt-4 text-center text-sm font-medium text-red-600 fade-message";
+      }
+    });
+  </script>
+</body>
+</html>

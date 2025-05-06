@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lost & Found - Reconnect with What Matters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #73c3eb;
+      color: #333;
+      overflow-x: hidden;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    header {
+      background-color: #0057a3;
+      color: rgb(233, 245, 242);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+    }
+
+    nav a {
+      margin-left: 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #00ffd5;
+    }
+
+    .hero {
+      background-color: #e3f2fd;
+      padding: 60px 20px;
+      text-align: center;
+      animation: fadeIn 1.2s ease-in;
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .search-bar {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      animation: slideUp 1s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .search-bar input {
+      width: 60%;
+      padding: 12px 16px;
+      border-radius: 6px 0 0 6px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    .search-bar button {
+      padding: 12px 20px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .search-bar button:hover {
+      background-color: #0056c4;
+    }
+
+    .categories {
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .category-card {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 220px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.8s ease-in;
+    }
+
+    .category-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+
+    @keyframes fadeInUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .category-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: #6ba5e3;
+    }
+
+    .category-card p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .recent {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .recent h2 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .item-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .item-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      width: calc(33.333% - 20px);
+      padding: 15px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 1s ease;
+    }
+
+    .item-card:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .item-card h4 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .item-card p {
+      font-size: 0.85rem;
+      color: #555;
+    }footer {
+      margin-top: 60px;
+      background-color: #003d5c;
+      color: white;
+      text-align: center;
+      padding: 30px 10px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @media (max-width: 992px) {
+      .item-card {
+        width: calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .search-bar input {
+        width: 70%;
+      }
+
+      .item-card {
+        width: 100%;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Lost & Found</h1>
+    <nav>
+      <a href="#">Home</a>
+      
+      <a href="lost item.html">Post Lost</a>
+      <a href="found.html">Post Found</a>
+      <a href="verification.html">Claim Verification</a>
+      <a href="reward.html">Reward</a>
+      <a href="login.html">Login</a>
+      
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Search for Lost or Found Items</h2>
+    <div class="search-bar">
+      <input type="text" placeholder="Search by item, location, or keyword...">
+      <button>Search</button>
+    </div>
+  </section>
+
+  <section class="categories">
+    <div class="category-card">
+      <a href="lost item.html"><h3>📦 Lost an Item</h3></a>
+      <p>Report what you’ve lost so others can help you find it.</p>
+    </div>
+    <div class="category-card">
+      <a href="found.html"><h3>🔍 Found an Item</h3></a>
+      <p>Spotted something someone might have lost? Post it here.</p>
+    </div>
+    <div class="category-card">
+      <h3>📍 Near You</h3>
+      <p>Browse items recently reported in your area.</p>
+    </div>
+    <a href="chatbot.html"><img src="./images/DgfrJNR8oUyv.gif" alt="" style="height: 120px; width: 100px;"></a>
+  </section>
+
+  <section class="recent">
+    <h2>Recent Listings</h2>
+    <div class="item-grid">
+      <div class="item-card">
+        <img src="images/vivel lp.jpg" alt="ASUS TUF gaming A15 black">
+        <h4>ASUS TUF gaming A15 - black</h4>
+        <p>Ramgarh Engineering College</p>
+        <a href="laptop.html">Read more...</a>
+      </div>
+      <div class="item-card">
+        <img src="images/swapnil watch.jpg" alt="Titan Imported watch">
+        <h4>Titan Imported watch</h4>
+        <p>Found near Deepak Canteen</p>
+        <a href="watch.html">Read more...</a>
+      </div>
+      <div class="item-card">
+        <img src="images/raj chuha.jpg" alt="Xcess mouse">
+        <h4>Xcess mouse</h4>
+        <p>Found in staff room</p>
+        <a href="mouse.html">Read more...</a>
+      </div>
+      <div class="item-card">
+        <img src="images/moto.jpg" alt="Moto charger">
+        <h4>Moto charger</h4>
+        <p>Found in PPS lab</p>
+        <a href="charger.html">Read more...</a>
+      </div>
+      <div class="item-card">
+        <img src="images/WhatsApp Image 2025-05-06 at 01.56.30_7f279f1f.jpg" alt="Earbuds">
+        <h4>IQOO Earbuds</h4>
+        <p>Found in PPS lab</p>
+        <a href="earbuds.html">Read more...</a>
+      </div>
+      <div class="item-card">
+        <img src="images/WhatsApp Image 2025-05-06 at 01.56.08_ed7a3752.jpg" alt="Mobile">
+        <h4>Samsung Mobile</h4>
+        <p>Found in PPS lab</p>
+        <a href="mobile.html">Read more...</a>
+        
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Lost & Found | Built for Community Help
+    <br>
+    <br>
+    <p>About Us – Ramgarh Engineering College
+      Losing things on campus happens to all of us—ID cards, books, phones, or even keys. That’s why we created this Lost and Found platform for the REC community.
+      
+      It’s a quick and easy way for students, staff, and faculty to report lost items or return something they’ve found. We believe in helping each other out and making campus life a little less stressful.
+      
+      Found something? Lost something? Let’s work together to get it back where it belongs.
+      <br>
+      <br>
+  
+      
+      Built with ❤️ by Team PentaCore.</p>
+      
+      Customer support :
+      Email: vivek091722@gmail.com<br>
+      Phone no. : 9931860260
+      <br>
+      <br>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reward Founder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseFade {
+      0% { opacity: 0; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.02); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1s ease-out;
+    }
+    .animate-slideUp {
+      animation: slideUp 0.6s ease-out;
+    }
+    .animate-pulseFade {
+      animation: pulseFade 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen animate-fadeIn">
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md animate-slideUp">
+    <h2 class="text-3xl font-bold text-center mb-6 text-green-600">Reward the Founder</h2>
+    <form id="rewardForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Reward Amount (₹)</label>
+        <input type="number" name="amount" required
+          class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-300 transition" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Bank Account Number</label>
+        <input type="text" name="accountNumber" required
+          class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-300 transition" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">IFSC Code</label>
+        <input type="text" name="ifsc" required
+          class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-300 transition" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">UPI ID (Optional)</label>
+        <input type="text" name="upi"
+          class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-300 transition" />
+      </div>
+      <button type="submit"
+        class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold transition transform hover:scale-105">
+        Send Reward
+      </button>
+    </form>
+    <p id="responseMsg" class="mt-4 text-center text-sm text-gray-600"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('rewardForm');
+    const msg = document.getElementById('responseMsg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = "Processing...";
+      msg.className = "mt-4 text-center text-sm text-blue-500 animate-pulseFade";
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch('/api/reward', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        msg.textContent = result.message;
+        msg.className = "mt-4 text-center text-sm text-green-600 animate-pulseFade";
+      } catch (err) {
+        msg.textContent = "Failed to send reward. Please try again.";
+        msg.className = "mt-4 text-center text-sm text-red-600 animate-pulseFade";
+      }
+    });
+  </script>
+</body>
+</html>
